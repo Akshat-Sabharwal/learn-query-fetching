@@ -10,6 +10,9 @@ const reducerFn = (state, action) => {
 
     case "poll":
       return { ...state, pollInterval: action.payload };
+
+    default:
+      return state;
   }
 };
 
@@ -27,7 +30,7 @@ export const Fetcher = () => {
         .then((res) => res.json())
         .then((res) => res.posts),
     enabled: !options.disableQueries,
-    refetchInterval: () => options.pollInterval * 1000 ?? Infinity,
+    refetchInterval: () => options.pollInterval ?? false,
   });
 
   return (
@@ -63,7 +66,7 @@ export const Fetcher = () => {
             type="checkbox"
             id="disable"
             className="size-5 outline-none border-3 border-gray-400 cursor-pointer"
-            value={options.disableQueries}
+            checked={options.disableQueries}
             onChange={(e) => dispatch({ type: "disable-queries" })}
           />
         </span>
@@ -75,9 +78,9 @@ export const Fetcher = () => {
             type="number"
             id="poll"
             className="w-12 pl-1 outline-none border-1 border-gray-400"
-            value={options.pollInterval ?? Infinity}
+            value={options.pollInterval ?? ""}
             onChange={(e) =>
-              dispatch({ type: "poll", payload: e.target.value })
+              dispatch({ type: "poll", payload: Number(e.target.value) })
             }
           />
         </span>

@@ -23,7 +23,7 @@ export const Stats = () => {
       <div className="overflow-y-scroll border-2 border-gray-300 rounded-lg p-4 w-full h-full">
         {queries?.map((el) => (
           <div
-            key={el[0].join("")}
+            key={el[0].reduce((acc, curr) => acc + JSON.stringify(curr))}
             className="w-full rounded-md p-3 bg-gray-700 mb-6 text-gray-100 overflow-y-scroll"
           >
             Query Keys:
